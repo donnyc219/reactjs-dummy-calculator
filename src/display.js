@@ -12,7 +12,7 @@ class Display extends React.Component {
         return(
 
             <div className="display" >
-                <div className="display-text">999999999</div>
+                <div className="display-text">0</div>
             </div>
         );
     }
