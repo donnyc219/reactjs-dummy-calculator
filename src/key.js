@@ -3,10 +3,17 @@ import './index.css';
 
 class Key extends React.Component {
     
+    // constructor(props) {}
+
     render(){
         const style = (this.props.keyValue==="0")? "key key-zero": "key";
         return(
-            <button className={style}>{this.props.keyValue}</button>
+            <button 
+                value={this.props.keyValue} 
+                className={style} 
+                onClick={ () => this.props.onKeyClicked(this.props.keyValue)}>
+                {this.props.keyValue}
+            </button>
         );
     }
 }

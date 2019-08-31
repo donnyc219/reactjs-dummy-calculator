@@ -8,14 +8,14 @@ import Col from 'react-bootstrap/Col';
 
 class Calculator extends React.Component {
 
-//     <div className="calculator">
-//     <div className="row"><Display /></div>
-//     <div className="row"><Key keyValue="AC"/><Key keyValue="+/-"/><Key keyValue="%"/><Key keyValue="&#247;"/></div>
-//     <div className="row"><Key keyValue="7"/><Key keyValue="8"/><Key keyValue="9"/><Key keyValue="&times;"/><br/></div>
-//     <div className="row"><Key keyValue="4"/><Key keyValue="5"/><Key keyValue="6"/><Key keyValue="-"/></div>
-//     <div className="row"><Key keyValue="1"/><Key keyValue="2"/><Key keyValue="3"/><Key keyValue="+"/></div>
-//     <div className="row"><Key keyValue="0"/><Key keyValue="."/><Key keyValue="="/></div>
-// </div>
+    onKeyClicked(k){
+        // console.log("you just clicked: " + k.className);
+        // QUESTIONS: how to get the value of the key?
+        // console.log(k.value);
+        console.log(k);
+
+    }
+
     render() {
 
         return (
@@ -23,37 +23,37 @@ class Calculator extends React.Component {
             <Container className="calculator">
                 <Row noGutters="true"><Col><Display /></Col></Row>
                 <Row noGutters="true">
-                    <Col><Key keyValue="AC"/></Col>
-                    <Col><Key keyValue="+/-"/></Col>
-                    <Col><Key keyValue="%"/></Col>
-                    <Col><Key keyValue="&#247;"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="AC"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="+/-"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="%"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="&#247;"/></Col>
                 </Row>
 
                 <Row noGutters="true">
-                    <Col><Key keyValue="7"/></Col>
-                    <Col><Key keyValue="8"/></Col>
-                    <Col><Key keyValue="9"/></Col>
-                    <Col><Key keyValue="&times;"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="7"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="8"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="9"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="&times;"/></Col>
                 </Row>
 
                 <Row noGutters="true">
-                    <Col><Key keyValue="4"/></Col>
-                    <Col><Key keyValue="5"/></Col>
-                    <Col><Key keyValue="6"/></Col>
-                    <Col><Key keyValue="-"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="4"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="5"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="6"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="-"/></Col>
                 </Row>
 
                 <Row noGutters="true">
-                    <Col><Key keyValue="1"/></Col>
-                    <Col><Key keyValue="2"/></Col>
-                    <Col><Key keyValue="3"/></Col>
-                    <Col><Key keyValue="+"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="1"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="2"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="3"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="+"/></Col>
                 </Row>
 
                 <Row noGutters="true">
-                    <Col xs={6}><Key keyValue="0"/></Col>
-                    <Col><Key keyValue="."/></Col>
-                    <Col><Key keyValue="="/></Col>
+                    <Col xs={6}><Key onKeyClicked={this.onKeyClicked} keyValue="0"/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="."/></Col>
+                    <Col><Key onKeyClicked={this.onKeyClicked} keyValue="="/></Col>
                 </Row>
 
             </Container>
