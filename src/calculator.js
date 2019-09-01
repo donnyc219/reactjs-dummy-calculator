@@ -8,12 +8,44 @@ import Col from 'react-bootstrap/Col';
 
 class Calculator extends React.Component {
 
-    onKeyClicked(k){
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: "0"
+        };
+
+        this.updateDisplayValue = this.updateDisplayValue.bind(this);
+        this.onKeyClicked = this.onKeyClicked.bind(this);
+    }
+
+    onKeyClicked(value){
         // console.log("you just clicked: " + k.className);
         // QUESTIONS: how to get the value of the key?
         // console.log(k.value);
-        console.log(k);
+        console.log(value);
 
+        this.updateDisplayValue(value);
+
+    }
+
+    updateDisplayValue(value){
+
+        // TODO: AC, +/-, etc
+        // TODO2: handle "."
+        //  1. ban multiple "."
+        //  2. forbid "." becoming the first digit
+        // TODO3: no multiple "0" when value is already 0
+
+        let stateValue = this.state.value;
+
+        // if the display is 0, just update stateValue. Otherwise concatenate it
+        stateValue = (parseFloat(stateValue)<0.0001)? value.toString(): stateValue + value.toString();
+        
+        this.setState({
+            value: stateValue
+        }, 
+        () => console.log("state: " + this.state.value));
+        console.log("your new value: " + stateValue);
     }
 
     render() {
