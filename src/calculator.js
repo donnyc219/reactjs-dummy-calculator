@@ -19,11 +19,7 @@ class Calculator extends React.Component {
     }
 
     onKeyClicked(value){
-        // console.log("you just clicked: " + k.className);
-        // QUESTIONS: how to get the value of the key?
-        // console.log(k.value);
-        console.log(value);
-
+ 
         this.updateDisplayValue(value);
 
     }
@@ -43,9 +39,9 @@ class Calculator extends React.Component {
         
         this.setState({
             value: stateValue
-        }, 
-        () => console.log("state: " + this.state.value));
+        });
         console.log("your new value: " + stateValue);
+
     }
 
     render() {
@@ -53,7 +49,7 @@ class Calculator extends React.Component {
         return (
 
             <Container className="calculator">
-                <Row noGutters="true"><Col><Display /></Col></Row>
+                <Row noGutters="true"><Col><Display value={this.state.value} /></Col></Row>
                 <Row noGutters="true">
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="AC"/></Col>
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="+/-"/></Col>
