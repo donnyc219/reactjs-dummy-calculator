@@ -26,11 +26,15 @@ class Calculator extends React.Component {
 
     updateDisplayValue(value){
 
-        // TODO: AC, +/-, etc
-        // TODO2: handle "."
-        //  1. ban multiple "."
-        //  2. forbid "." becoming the first digit
-        // TODO3: no multiple "0" when value is already 0
+        /**
+         * TODO: AC, +/-, etc
+         * TODO2: handle "."
+         *  1. ban multiple "."
+         *  2. forbid "." becoming the first digit
+         * TODO3: no multiple "0" when value is already 0
+         * TODO4: disallow 11 chars or more
+         */
+        
 
         let stateValue = this.state.value;
 
