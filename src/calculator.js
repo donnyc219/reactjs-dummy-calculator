@@ -1,10 +1,14 @@
 import React from 'react';
 import './index.css';
 import Key from './key';
+import StateHelper from './StateHelper';
 import Display from './display';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+
+
 
 class Calculator extends React.Component {
 
@@ -16,12 +20,16 @@ class Calculator extends React.Component {
 
         this.updateDisplayValue = this.updateDisplayValue.bind(this);
         this.onKeyClicked = this.onKeyClicked.bind(this);
+
+        this.stateHelper = new StateHelper();
+        console.log("state: " + this.stateHelper.state)
     }
 
     onKeyClicked(value){
  
         this.updateDisplayValue(value);
 
+        console.log("value: " + this.stateHelper.value);
     }
 
     updateDisplayValue(value){
