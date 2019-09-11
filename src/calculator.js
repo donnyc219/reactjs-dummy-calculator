@@ -6,6 +6,7 @@ import Display from './display';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import States from './States';
 
 
 
@@ -15,7 +16,8 @@ class Calculator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "0"
+            value: "0",
+            state: States.Start
         };
 
         this.updateDisplayValue = this.updateDisplayValue.bind(this);
@@ -28,8 +30,23 @@ class Calculator extends React.Component {
     onKeyClicked(value){
  
         this.updateDisplayValue(value);
+        this.printObject("state", this.state);
 
-        console.log("value: " + this.stateHelper.value);
+        let res = this.stateHelper.giveMeNewStateAndValue(this.state.state, value, this.state.value);
+
+        try {
+            this.updateState(res);
+        } catch (e) {
+            console.error("Something wrong. I think you need to implement more methods to handle different states.");
+        }
+    
+    }
+
+    updateState(result){
+        this.setState({
+            value: result.value,
+            state: result.state
+        });
     }
 
     updateDisplayValue(value){
@@ -52,8 +69,12 @@ class Calculator extends React.Component {
         this.setState({
             value: stateValue
         });
-        console.log("your new value: " + stateValue);
 
+    }
+    // helper method
+    printObject(tag, object){
+        console.log(tag);
+        console.log(object);
     }
 
     render() {
