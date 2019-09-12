@@ -7,48 +7,93 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import States from './States';
-
-
-
+import Operator from './Operator';
 
 class Calculator extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            value: "0",
-            state: States.Start
+            displayValue: "0",
+            firstValue: 0,
+            secondValue: 0,
+            state: States.Start,
+            operator: Operator.noOperator
         };
 
         this.updateDisplayValue = this.updateDisplayValue.bind(this);
         this.onKeyClicked = this.onKeyClicked.bind(this);
 
         this.stateHelper = new StateHelper();
-        console.log("state: " + this.stateHelper.state)
     }
 
     onKeyClicked(value){
  
-        this.updateDisplayValue(value);
+        // this.updateDisplayValue(value);
         this.printObject("state", this.state);
-
-        let res = this.stateHelper.giveMeNewStateAndValue(this.state.state, value, this.state.value);
+        
+        let res = this.stateHelper.getResult(this.state.state, value, this.state.displayValue);
 
         try {
-            this.updateState(res);
+            this.handleResult(res);
         } catch (e) {
             console.error("Something wrong. I think you need to implement more methods to handle different states.");
         }
     
     }
 
-    updateState(result){
+    handleResult(result){
+        let displayValue, firstValue, operator;
+        let secondValue = 0;
+
+        switch (result.state) {
+            case States.Start:
+                displayValue = 0;
+                firstValue = 0;
+                operator = result.operator;
+                break;
+            case States.NumberEndingWithDot:
+            case States.NumberWithNoDot:
+            case States.NumberWithOperator:
+            case States.NumberWithDot:
+                displayValue = result.value;
+                firstValue = result.value;
+                operator = result.operator;
+                break;
+            default:
+                console.error("In handlResult. Case not found")
+                break;
+        }
+
+        this.updateState(displayValue, firstValue, secondValue, operator, result.state)
+
+    }
+
+    updateState(displayValue, firstValue, secondValue, operator, state){
         this.setState({
-            value: result.value,
-            state: result.state
+            displayValue: displayValue,
+            firstValue: firstValue,
+            secondValue: secondValue,
+            operator: operator,
+            state: state
         });
     }
 
+    calculate(a, b, operator){
+        switch (operator) {
+            case Operator.addition:
+                return a+b;
+            case Operator.substraction:
+                return a-b;
+            case Operator.multiplication:
+                return a*b;
+            default:
+                return a/b;
+        }
+    }
+
+    // display value is updated when this.state is updated.
+    // this method is not useful at all now
     updateDisplayValue(value){
 
         /**
@@ -61,14 +106,16 @@ class Calculator extends React.Component {
          */
         
 
-        let stateValue = this.state.value;
+        // let stateValue = this.state.displayValue;
 
-        // if the display is 0, just update stateValue. Otherwise concatenate it
-        stateValue = (parseFloat(stateValue)<0.0001)? value.toString(): stateValue + value.toString();
+        // // if the display is 0, just update stateValue. Otherwise concatenate it
+        // stateValue = (parseFloat(stateValue)<0.0001)? value.toString(): stateValue + value.toString();
         
-        this.setState({
-            value: stateValue
-        });
+        // this.setState({
+        //     value: stateValue
+        // });
+
+
 
     }
     // helper method
@@ -82,7 +129,7 @@ class Calculator extends React.Component {
         return (
 
             <Container className="calculator">
-                <Row noGutters="true"><Col><Display value={this.state.value} /></Col></Row>
+                <Row noGutters="true"><Col><Display value={this.state.displayValue} /></Col></Row>
                 <Row noGutters="true">
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="AC"/></Col>
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="+/-"/></Col>

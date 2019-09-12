@@ -1,9 +1,10 @@
 
 class Result {
 
-    constructor(state, value){
+    constructor(state, value, operator){
         this.state = state;
         this.value = value;
+        this.operator = operator;
     }
 }
 
