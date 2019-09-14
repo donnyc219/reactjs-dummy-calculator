@@ -29,6 +29,10 @@ class StateHelper {
                 return this.startState(key);
             case States.NumberEndingWithDot:
                 return this.numberEndingWithADot(key, value);
+            case States.NumberWithNoDot:
+                return this.numberWithNoDot(key, value);
+            case States.NumberWithDot:
+                return this.numberWithADot(key, value);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -87,6 +91,62 @@ class StateHelper {
 
     }
 
+    numberWithNoDot(key, value){
+        let newState, newValue, newOperator;
+
+        if (key===symbol.percent) {
+            newState = States.NumberWithDot;
+            newValue = value / 100;
+            newOperator = Operator.noOperator;
+        } else if (this.isOperator(key)) {
+            newState = States.NumberWithOperator;
+            newValue = value;
+            newOperator = this.getOperatorByKey(key);
+        } else if (key===".") {
+            newState = States.NumberEndingWithDot;
+            newValue = value.concat(".");
+            newOperator = Operator.noOperator;
+        } else { // 0-9, =, +-
+            newState = States.NumberWithNoDot;
+            newOperator = Operator.noOperator;
+            
+            if (key===symbol.magnitude){
+                newValue = this.changeMagnitude(value);
+            } else if (key==="=") {
+                newValue = value;
+            } else { // 0-9
+                newValue = value.concat(key);
+            }
+        }
+
+        return new Result(newState, newValue, newOperator);
+    }
+
+    numberWithADot(key, value){
+        let newState, newValue, newOperator;
+
+        if (this.isOperator(key)) {
+            newState = States.NumberWithOperator;
+            newValue = value;
+            newOperator = this.getOperatorByKey(key);
+        } else {    // 0-9, ., =, +-, %
+            newState = States.NumberWithDot;
+            newOperator = Operator.noOperator;
+
+            if (key===symbol.percent) {
+                newValue = value/100;
+            } else if (key==="=" || key===".") {
+                newValue = value;
+            } else if (key===symbol.magnitude) {
+                newValue = this.changeMagnitude(value);
+            } else { // 0-9
+                newValue = value.concat(key);
+            }
+        }
+        
+        return new Result(newState, newValue, newOperator);
+    }
+
     acIsClicked(){
         return new Result(
             States.Start, 
@@ -118,7 +178,6 @@ class StateHelper {
     }
 
     removeFirstChar(str) {
-        let len = str.length;
         return str.slice(1);
     }
 

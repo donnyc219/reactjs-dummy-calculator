@@ -30,7 +30,7 @@ class Calculator extends React.Component {
     onKeyClicked(value){
  
         // this.updateDisplayValue(value);
-        this.printObject("state", this.state);
+        // this.printObject("state", this.state);
         
         let res = this.stateHelper.getResult(this.state.state, value, this.state.displayValue);
 
@@ -66,7 +66,7 @@ class Calculator extends React.Component {
         }
 
         this.updateState(displayValue, firstValue, secondValue, operator, result.state)
-
+        // this.printObject("updated state", this.state);
     }
 
     updateState(displayValue, firstValue, secondValue, operator, state){
@@ -76,6 +76,8 @@ class Calculator extends React.Component {
             secondValue: secondValue,
             operator: operator,
             state: state
+        }, () => {
+            this.printObject("updated state", this.state);
         });
     }
 
