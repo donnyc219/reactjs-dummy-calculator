@@ -43,8 +43,11 @@ class Calculator extends React.Component {
     }
 
     handleResult(result){
-        let displayValue, firstValue, operator;
+        let displayValue, operator;
+        let firstValue = this.state.firstValue;
         let secondValue = 0;
+
+        this.printObject("Result", result);
 
         switch (result.state) {
             case States.Start:
@@ -58,8 +61,22 @@ class Calculator extends React.Component {
             case States.NumberWithDot:
                 displayValue = result.value;
                 firstValue = result.value;
-                operator = result.operator;
+
+                // operator no change   => use operator in this.state
+                // operator need change => use new operator
+                operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
                 break;
+            case States.SecondNumberWithNoDotWithOperator:
+                displayValue = result.value;
+                secondValue = result.value;
+                operator = this.state.operator;
+                break;
+            case States.SecondNumberIsZeroWithOperator:
+                displayValue = 0;
+                secondValue = 0;
+                operator = this.state.operator;
+                break;
+
             default:
                 console.error("In handlResult. Case not found")
                 break;

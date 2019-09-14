@@ -33,6 +33,8 @@ class StateHelper {
                 return this.numberWithNoDot(key, value);
             case States.NumberWithDot:
                 return this.numberWithADot(key, value);
+            case States.NumberWithOperator:
+                return this.numberWithOperator(key, value);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -144,6 +146,39 @@ class StateHelper {
             }
         }
         
+        return new Result(newState, newValue, newOperator);
+    }
+
+    numberWithOperator(key, value){
+        let newState, newValue, newOperator;
+
+        if (key==="0") {
+            newState = States.SecondNumberIsZeroWithOperator;
+            newValue = 0;
+            newOperator = Operator.operatorNoChange;
+        } else if (key>="1" && key<="9") {
+            newState = States.SecondNumberWithNoDotWithOperator;
+            newValue = key;
+            newOperator = Operator.operatorNoChange;
+        } else {    
+            newState = States.NumberWithOperator;
+            newOperator = Operator.operatorNoChange;
+
+            if (key===".") {
+                newValue = value.concat(".");
+            } else if (this.isOperator(key)) {
+                newValue = value;
+                newOperator = this.getOperatorByKey(key);
+            } else if (key==="=") {
+                newValue = value;
+            } else if (key===symbol.magnitude) {
+                newValue = this.changeMagnitude(value);
+            } else { // %
+                newValue = value/100;
+            }
+
+        }
+
         return new Result(newState, newValue, newOperator);
     }
 
