@@ -150,6 +150,9 @@ class StateHelper {
     }
 
     numberWithOperator(key, value){
+
+        // TODO: fix bug in this method
+        
         let newState, newValue, newOperator;
 
         if (key==="0") {
