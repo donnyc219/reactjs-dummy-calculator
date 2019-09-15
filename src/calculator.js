@@ -76,6 +76,11 @@ class Calculator extends React.Component {
                 secondValue = 0;
                 operator = this.state.operator;
                 break;
+            case States.SecondNumberEndingWithDot:
+                displayValue = result.value;
+                secondValue = result.value;
+                operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
+                break;
 
             default:
                 console.error("In handlResult. Case not found")

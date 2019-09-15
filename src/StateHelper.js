@@ -150,9 +150,6 @@ class StateHelper {
     }
 
     numberWithOperator(key, value){
-
-        // TODO: fix bug in this method
-        
         let newState, newValue, newOperator;
 
         if (key==="0") {
@@ -163,13 +160,15 @@ class StateHelper {
             newState = States.SecondNumberWithNoDotWithOperator;
             newValue = key;
             newOperator = Operator.operatorNoChange;
-        } else {    
+        } else if (key==="."){
+            newState = States.SecondNumberEndingWithDot;
+            newValue = "0.";
+            newOperator = Operator.operatorNoChange;
+        } else {
             newState = States.NumberWithOperator;
             newOperator = Operator.operatorNoChange;
-
-            if (key===".") {
-                newValue = value.concat(".");
-            } else if (this.isOperator(key)) {
+            
+            if (this.isOperator(key)) {
                 newValue = value;
                 newOperator = this.getOperatorByKey(key);
             } else if (key==="=") {
