@@ -36,7 +36,7 @@ class StateHelper {
             case States.NumberWithOperator:
                 return this.numberWithOperator(key, value);
             case States.SecondNumberIsZeroWithOperator:
-                return this.secondNumberIsZero(key, value);
+                return this.secondNumberIsZero(key);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -186,7 +186,7 @@ class StateHelper {
         return new Result(newState, newValue, newOperator);
     }
 
-    secondNumberIsZero(key, value){
+    secondNumberIsZero(key){
         // assume there is no such a thing called "-0". So only 0.
         let newState, newValue, newOperator;
 
