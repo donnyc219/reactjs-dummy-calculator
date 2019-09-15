@@ -69,17 +69,30 @@ class Calculator extends React.Component {
             case States.SecondNumberWithNoDotWithOperator:
                 displayValue = result.value;
                 secondValue = result.value;
-                operator = this.state.operator;
+                operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
                 break;
             case States.SecondNumberIsZeroWithOperator:
                 displayValue = 0;
                 secondValue = 0;
-                operator = this.state.operator;
+                operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
                 break;
             case States.SecondNumberEndingWithDot:
                 displayValue = result.value;
                 secondValue = result.value;
                 operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
+                break;
+            case States.ReturnResultWithOperator:
+                displayValue = this.calculate(this.state.firstValue, this.state.secondValue, this.state.operator);
+                firstValue = displayValue;
+                secondValue = 0;
+                operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
+                result.state = States.NumberWithOperator;   // change the state manually so that it can be updated below
+                break;
+            case States.ReturnResultNoOperator:
+                displayValue = this.calculate(this.state.firstValue, this.state.secondValue, this.state.operator);
+                firstValue = displayValue;
+                secondValue = 0;
+                operator = Operator.noOperator;
                 break;
 
             default:
@@ -87,7 +100,7 @@ class Calculator extends React.Component {
                 break;
         }
 
-        this.updateState(displayValue, firstValue, secondValue, operator, result.state)
+        this.updateState(displayValue, firstValue, secondValue, operator, result.state);
         // this.printObject("updated state", this.state);
     }
 
@@ -106,13 +119,14 @@ class Calculator extends React.Component {
     calculate(a, b, operator){
         switch (operator) {
             case Operator.addition:
-                return a+b;
+                return parseFloat(a) + parseFloat(b);
             case Operator.substraction:
-                return a-b;
+                return parseFloat(a) - parseFloat(b);
             case Operator.multiplication:
-                return a*b;
+                return parseFloat(a) * parseFloat(b);
             default:
-                return a/b;
+                if (b==="0" || b<0.0001) return "Error!";
+                return parseFloat(a) / parseFloat(b);
         }
     }
 

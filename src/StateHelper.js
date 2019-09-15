@@ -35,6 +35,8 @@ class StateHelper {
                 return this.numberWithADot(key, value);
             case States.NumberWithOperator:
                 return this.numberWithOperator(key, value);
+            case States.SecondNumberIsZeroWithOperator:
+                return this.secondNumberIsZero(key, value);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -178,6 +180,49 @@ class StateHelper {
             } else { // %
                 newValue = value/100;
             }
+
+        }
+
+        return new Result(newState, newValue, newOperator);
+    }
+
+    secondNumberIsZero(key, value){
+        // assume there is no such a thing called "-0". So only 0.
+        let newState, newValue, newOperator;
+
+        switch (key) {
+            case "0":
+            case symbol.percent:
+                newState = States.SecondNumberIsZeroWithOperator;
+                newValue = 0;
+                newOperator = Operator.operatorNoChange;
+                break;
+            case symbol.magnitude:
+                newState = States.SecondNumberIsZeroWithOperator;
+                newValue = 0;
+                newOperator = Operator.operatorNoChange;
+                break;
+            case ".":
+                newState = States.SecondNumberEndingWithDot;
+                newValue = "0.";
+                newOperator = Operator.operatorNoChange;
+                break;
+            case "=":
+                newState = States.ReturnResultNoOperator;
+                newValue = 0;
+                newOperator = Operator.noOperator;
+                break;
+            default:    // operator or 1-9
+                if (this.isOperator(key)) { // operator
+                    newState = States.ReturnResultWithOperator;
+                    newValue = 0;
+                    newOperator = this.getOperatorByKey(key);
+                } else {    // 1-9
+                    newState = States.SecondNumberWithNoDotWithOperator;
+                    newValue = key;
+                    newOperator = Operator.operatorNoChange;
+                }
+                break;
 
         }
 
