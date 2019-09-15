@@ -20,7 +20,7 @@ code {
     width: auto;
     display: inline-block;
     padding: 10px;
-    background-color: bisque
+    background-color: white
 }
 
 .key {
@@ -28,6 +28,7 @@ code {
     height: 60px;
     /* margin: 1px; */
     font-size: 24px;
+    background-color: rgb(242, 244, 247);
 }
 
 .key-zero {
