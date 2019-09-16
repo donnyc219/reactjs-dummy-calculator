@@ -150,7 +150,7 @@ class StateHelper {
             } else if (key===symbol.magnitude) {
                 newValue = this.changeMagnitude(value);
             } else { // 0-9
-                newValue = value.concat(key);
+                newValue = value.toString().concat(key);
             }
         }
         
