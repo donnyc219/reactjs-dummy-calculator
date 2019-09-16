@@ -39,6 +39,10 @@ class StateHelper {
                 return this.secondNumberIsZero(key);
             case States.SecondNumberWithNoDotWithOperator:
                 return this.secondNumberWithNoDot(key, value);
+            case States.SecondNumberEndingWithDot:
+                return this.secondNumberEndingWithDot(key, value);
+            case States.SecondNumberWithDot:
+                return this.secondNumberWithDot(key, value);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -271,6 +275,58 @@ class StateHelper {
         return new Result(newState, newValue, newOperator);
     }
 
+    secondNumberEndingWithDot(key, value){
+        let newState, newValue, newOperator;
+
+        if (key>="0" && key<="9") {
+            newState = States.SecondNumberWithDot;
+            newValue = value.concat(key);
+            newOperator = Operator.operatorNoChange;
+        } else if (key==="=") {
+            newState = States.ReturnResultNoOperator;
+            newValue = value;
+            newOperator = Operator.noOperator;
+        } else if (this.isOperator(key)) {
+            newState = States.ReturnResultWithOperator;
+            newValue = value;
+            newOperator = this.getOperatorByKey(key);
+        } else {    // one of the ., +- or %
+            newState = States.SecondNumberEndingWithDot;
+            newOperator = Operator.operatorNoChange;
+
+            if (key===symbol.magnitude)    newValue = this.changeMagnitude(value);
+            else newValue = value;  // either . or %. If it is a %, don't even bother to change the value
+ 
+        }
+
+        return new Result(newState, newValue, newOperator);
+    }
+
+    secondNumberWithDot(key, value){
+        let newState, newValue, newOperator;
+
+        if (this.isOperator(key)) {
+            newState = States.ReturnResultWithOperator;
+            newValue = value;
+            newOperator = this.getOperatorByKey(key);
+        } else if (key==="=") {
+            newState = States.ReturnResultNoOperator;
+            newValue = value;
+            newOperator = States.operatorNoChange;
+        } else {    // 0-9, ., +-, %
+            newState = States.SecondNumberWithDot;
+            newOperator = Operator.operatorNoChange;
+
+            if (key===".")                      newValue = value;
+            else if (key===symbol.magnitude)    newValue = this.changeMagnitude(value);
+            else if (key===symbol.percent)      newValue = value/100;
+            else                                newValue = value.concat(key);   // 0-9
+        }
+
+        return new Result(newState, newValue, newOperator);
+    }
+
+
     acIsClicked(){
         return new Result(
             States.Start, 
@@ -281,9 +337,13 @@ class StateHelper {
 
     // It doesn't care if it is a valid number (e.g "89."). This method just add or remove a negative sign at the beginning
     changeMagnitude(strValue){
-        let firstChar = strValue.charAt(0);
+        let firstChar = strValue.toString().charAt(0);
         if (firstChar==="-") {
-            return this.removeFirstChar(strValue);
+            try {
+                return this.removeFirstChar(strValue);
+            } catch (e) {
+                console.error("Something wrong in the method removeFirstChar()")
+            }
         }
         return "-" + strValue;
     }

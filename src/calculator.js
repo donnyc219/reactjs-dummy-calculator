@@ -103,6 +103,7 @@ class Calculator extends React.Component {
 
         this.updateState(displayValue, firstValue, secondValue, operator, result.state);
         // this.printObject("updated state", this.state);
+
     }
 
     updateState(displayValue, firstValue, secondValue, operator, state){
