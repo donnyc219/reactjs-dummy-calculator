@@ -31,6 +31,10 @@ code {
     background-color: rgb(242, 244, 247);
 }
 
+.special-key {
+    background-color: rgb(190, 221, 231);
+}
+
 .key-zero {
     width: 100%;
     text-align: left;
