@@ -338,6 +338,7 @@ class StateHelper {
     // It doesn't care if it is a valid number (e.g "89."). This method just add or remove a negative sign at the beginning
     changeMagnitude(strValue){
         let firstChar = strValue.toString().charAt(0);
+        console.log(`firstChar: ${firstChar}`);
         if (firstChar==="-") {
             try {
                 return this.removeFirstChar(strValue);
@@ -362,11 +363,11 @@ class StateHelper {
     }
 
     removeFirstChar(str) {
-        return str.slice(1);
+        return str.toString().slice(1);
     }
 
     removeLastChar(str){
-        return str.slice(0, -1);
+        return str.toString().slice(0, -1);
     }
 
     isOperator(key){
