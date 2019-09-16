@@ -37,6 +37,8 @@ class StateHelper {
                 return this.numberWithOperator(key, value);
             case States.SecondNumberIsZeroWithOperator:
                 return this.secondNumberIsZero(key);
+            case States.SecondNumberWithNoDotWithOperator:
+                return this.secondNumberWithNoDot(key, value);
             default:
                 console.error("I can't determine the state");
                 break;
@@ -224,6 +226,46 @@ class StateHelper {
                 }
                 break;
 
+        }
+
+        return new Result(newState, newValue, newOperator);
+    }
+
+    secondNumberWithNoDot(key, value){
+        let newState, newValue, newOperator;
+
+        switch (key) {
+            case ".":
+                newState = States.SecondNumberEndingWithDot;
+                newValue = value.concat(".");
+                newOperator = Operator.operatorNoChange;
+                break;
+            case "=":
+                newState = States.ReturnResultNoOperator;
+                newValue = value;
+                newOperator = Operator.noOperator;
+                break;
+            case symbol.percent:
+                newState = States.SecondNumberWithDot;
+                newValue = value/100;
+                newOperator = Operator.operatorNoChange;
+                break;
+            case symbol.magnitude:
+                newState = States.SecondNumberWithNoDotWithOperator;
+                newValue = this.changeMagnitude(value);
+                newOperator = Operator.operatorNoChange;
+                break;
+            default:    // eiher operator or 0-9
+                if (this.isOperator(key)) {
+                    newState = States.ReturnResultWithOperator;
+                    newValue = value;
+                    newOperator = this.getOperatorByKey(key);
+                } else {    // 0-9
+                    newState = States.SecondNumberWithNoDotWithOperator;
+                    newValue = value.concat(key);
+                    newOperator = Operator.operatorNoChange;
+                }
+                break;
         }
 
         return new Result(newState, newValue, newOperator);

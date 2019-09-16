@@ -77,6 +77,7 @@ class Calculator extends React.Component {
                 operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
                 break;
             case States.SecondNumberEndingWithDot:
+            case States.SecondNumberWithDot:
                 displayValue = result.value;
                 secondValue = result.value;
                 operator = (result.operator===Operator.operatorNoChange)? this.state.operator: result.operator;
