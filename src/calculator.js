@@ -94,6 +94,11 @@ class Calculator extends React.Component {
                 firstValue = displayValue;
                 secondValue = 0;
                 operator = Operator.noOperator;
+                
+                if (displayValue==="0") result.state = States.Start;
+                else if (displayValue.toString().includes("."))    result.state = States.NumberWithDot;
+                else result.state = States.NumberWithNoDot;
+
                 break;
 
             default:
