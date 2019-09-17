@@ -124,17 +124,25 @@ class Calculator extends React.Component {
     }
 
     calculate(a, b, operator){
+        let res = 0;
         switch (operator) {
             case Operator.addition:
-                return parseFloat(a) + parseFloat(b);
+                res = parseFloat(a) + parseFloat(b);
+                break;
             case Operator.substraction:
-                return parseFloat(a) - parseFloat(b);
+                res = parseFloat(a) - parseFloat(b);
+                break;
             case Operator.multiplication:
-                return parseFloat(a) * parseFloat(b);
+                res = parseFloat(a) * parseFloat(b);
+                break;
             default:
-                if (b==="0" || b<0.0001) return "Error!";
-                return parseFloat(a) / parseFloat(b);
+                if (b==="0" || b<1e-10) return "Error!";
+                res = parseFloat(a) / parseFloat(b);
+                break;
         }
+
+        return parseFloat(parseFloat(res.toFixed(8)).toPrecision(8));
+
     }
 
     // display value is updated when this.state is updated.
