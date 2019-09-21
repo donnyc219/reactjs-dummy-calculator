@@ -122,10 +122,24 @@ class Calculator extends React.Component {
     }
 
     formatDisplayValue(strNumber){
-        if (this.getLastCharOf(strNumber)!=="." && this.getLastCharOf(strNumber)!=="0")
-            return parseFloat(parseFloat(parseFloat(strNumber).toFixed(8)).toPrecision(8));
 
-        return strNumber;
+        if (this.getLastCharOf(strNumber)===".") {
+            // eg "129."
+            return this.addThousandSeparator(parseFloat(strNumber)).concat(".");
+        } else if (this.getLastCharOf(strNumber)==="0" && strNumber.toString().includes(".")) {
+            // eg 123.10, 102.310
+            // cases like 13230 are excluded
+            return this.addThousandSeparator(strNumber);
+        }
+
+        let num = parseFloat(parseFloat(parseFloat(strNumber).toFixed(8)).toPrecision(8));
+        return this.addThousandSeparator(num);
+    }
+
+    addThousandSeparator(x){
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
     }
 
     calculate(a, b, operator){
