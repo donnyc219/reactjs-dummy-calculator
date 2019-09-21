@@ -1,11 +1,7 @@
 import React from 'react';
 import './index.css';
-import States from './States';
-import StateHelper from './StateHelper';
 
 class Key extends React.Component {
-    
-    // constructor(props) {}
 
     render(){
         let style;

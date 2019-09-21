@@ -2,11 +2,10 @@ import React from 'react';
 import './index.css'
 
 class Display extends React.Component {
+
     constructor(props){
         super(props);
-        // this.setState({
-        //     value: this.props.value
-        // });
+
         this.state = {
             value: this.props.value
         }

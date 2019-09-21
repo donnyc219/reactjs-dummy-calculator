@@ -21,17 +21,13 @@ class Calculator extends React.Component {
             operator: Operator.noOperator
         };
 
-        this.updateDisplayValue = this.updateDisplayValue.bind(this);
         this.onKeyClicked = this.onKeyClicked.bind(this);
 
         this.stateHelper = new StateHelper();
     }
 
     onKeyClicked(value){
- 
-        // this.updateDisplayValue(value);
-        // this.printObject("state", this.state);
-        
+
         let res = this.stateHelper.getResult(this.state.state, value, this.state.displayValue);
 
         try {
@@ -43,6 +39,9 @@ class Calculator extends React.Component {
     }
 
     handleResult(result){
+        // thousands separator: 
+        // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+
         let displayValue, operator;
         let firstValue = this.state.firstValue;
         let secondValue = 0;
@@ -107,9 +106,8 @@ class Calculator extends React.Component {
         }
 
         this.updateState(displayValue, firstValue, secondValue, operator, result.state);
-        // this.printObject("updated state", this.state);
-
     }
+
 
     updateState(displayValue, firstValue, secondValue, operator, state){
         this.setState({
@@ -121,6 +119,13 @@ class Calculator extends React.Component {
         }, () => {
             this.printObject("updated state", this.state);
         });
+    }
+
+    formatDisplayValue(strNumber){
+        if (this.getLastCharOf(strNumber)!=="." && this.getLastCharOf(strNumber)!=="0")
+            return parseFloat(parseFloat(parseFloat(strNumber).toFixed(8)).toPrecision(8));
+
+        return strNumber;
     }
 
     calculate(a, b, operator){
@@ -141,36 +146,15 @@ class Calculator extends React.Component {
                 break;
         }
 
-        return parseFloat(parseFloat(res.toFixed(8)).toPrecision(8));
+        return res;
 
     }
 
-    // display value is updated when this.state is updated.
-    // this method is not useful at all now
-    updateDisplayValue(value){
-
-        /**
-         * TODO: AC, +/-, etc
-         * TODO2: handle "."
-         *  1. ban multiple "."
-         *  2. forbid "." becoming the first digit
-         * TODO3: no multiple "0" when value is already 0
-         * TODO4: disallow 11 chars or more
-         */
-        
-
-        // let stateValue = this.state.displayValue;
-
-        // // if the display is 0, just update stateValue. Otherwise concatenate it
-        // stateValue = (parseFloat(stateValue)<0.0001)? value.toString(): stateValue + value.toString();
-        
-        // this.setState({
-        //     value: stateValue
-        // });
-
-
-
+    getLastCharOf(value){
+        return value.toString().charAt(value.toString().length-1);
     }
+
+
     // helper method
     printObject(tag, object){
         console.log(tag);
@@ -179,10 +163,12 @@ class Calculator extends React.Component {
 
     render() {
 
+        let formattedDisplayResult = this.formatDisplayValue(this.state.displayValue);
+
         return (
 
             <Container className="calculator">
-                <Row noGutters="true"><Col><Display value={this.state.displayValue} /></Col></Row>
+                <Row noGutters="true"><Col><Display value={formattedDisplayResult}/></Col></Row>
                 <Row noGutters="true">
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="AC"/></Col>
                     <Col><Key onKeyClicked={this.onKeyClicked} keyValue="+/-"/></Col>
