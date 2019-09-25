@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
-import Calculator from './calculator';
+import Calculator from './components/calculator';
 
 ReactDOM.render(<Calculator />, document.getElementById('root'));
 

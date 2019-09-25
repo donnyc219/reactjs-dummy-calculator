@@ -1,13 +1,13 @@
 import React from 'react';
-import './index.css';
+import '../index.css';
 import Key from './key';
-import StateHelper from './StateHelper';
+import StateHelper from '../StateHelper';
 import Display from './display';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import States from './States';
-import Operator from './Operator';
+import States from '../States';
+import Operator from '../Operator';
 
 const NAN_DISPLAY_VALUE = "ERROR";
 
