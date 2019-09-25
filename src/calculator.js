@@ -28,6 +28,12 @@ class Calculator extends React.Component {
 
     onKeyClicked(value){
 
+
+        if (this.isReachedLimit(this.state.firstValue, this.state.secondValue, this.state.displayValue, this.state.operator, value)) {
+            alert("Number is too long. I cannot handle it.");
+            return ;
+        }
+
         let res = this.stateHelper.getResult(this.state.state, value, this.state.displayValue);
 
         try {
@@ -35,7 +41,23 @@ class Calculator extends React.Component {
         } catch (e) {
             console.error("Something wrong. I think you need to implement more methods to handle different states.");
         }
-    
+    }
+
+    isReachedLimit(firstValue, secondValue, displayValue, operator, value){
+
+        if (isNaN(value))   return false;
+
+        // this is the case when you just clicked an operator and going to start the second number
+        // p.s. "value" is the first digit of your second number
+        // in this case, no need to check
+        // e.g. "17" + "4"   ("value" = "4")
+        if (firstValue.toString()!=="0" && operator!==Operator.noOperator && secondValue.toString()==="0")
+            return false;
+
+        let newValue = displayValue.toString().replace(".", "").replace("-", "");
+        if (newValue.length>7) return true;
+
+        return false;
     }
 
     handleResult(result){
