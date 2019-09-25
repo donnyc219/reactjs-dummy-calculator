@@ -1,4 +1,3 @@
-import Cases from './Cases';
 import States from './States';
 import Operator from './Operator';
 
@@ -14,7 +13,6 @@ const symbol = {
 class StateHelper {
 
     constructor(){
-        this.state = Cases.ZERO;
         this.value = "0"
     }
 
