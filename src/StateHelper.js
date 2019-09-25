@@ -1,6 +1,5 @@
 import Cases from './Cases';
 import States from './States';
-import Result from './Result';
 import Operator from './Operator';
 
 
@@ -49,6 +48,15 @@ class StateHelper {
         }
     }
 
+    createResultObject(newState, newValue, newOperator){
+        let obj = {
+            state: newState,
+            value: newValue,
+            operator: newOperator
+        }
+        return obj;
+    }
+
     startState(key){
 
         let newState, newValue;
@@ -63,7 +71,7 @@ class StateHelper {
             newValue = "0";
         }
 
-        return new Result(newState, newValue, Operator.noOperator);
+        return this.createResultObject(newState, newValue, Operator.noOperator);
     }
 
     numberEndingWithADot(key, value){
@@ -97,7 +105,7 @@ class StateHelper {
                 break;
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
 
     }
 
@@ -129,7 +137,7 @@ class StateHelper {
             }
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     numberWithADot(key, value){
@@ -154,7 +162,7 @@ class StateHelper {
             }
         }
         
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     numberWithOperator(key, value){
@@ -189,7 +197,7 @@ class StateHelper {
 
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     secondNumberIsZero(key){
@@ -232,7 +240,7 @@ class StateHelper {
 
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     secondNumberWithNoDot(key, value){
@@ -272,7 +280,7 @@ class StateHelper {
                 break;
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     secondNumberEndingWithDot(key, value){
@@ -299,7 +307,7 @@ class StateHelper {
  
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
     secondNumberWithDot(key, value){
@@ -323,12 +331,12 @@ class StateHelper {
             else                                newValue = value.concat(key);   // 0-9
         }
 
-        return new Result(newState, newValue, newOperator);
+        return this.createResultObject(newState, newValue, newOperator);
     }
 
 
     acIsClicked(){
-        return new Result(
+        return this.createResultObject(
             States.Start, 
             "0", 
             Operator.noOperator
