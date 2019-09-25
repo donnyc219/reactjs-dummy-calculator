@@ -12,10 +12,6 @@ const symbol = {
 
 class StateHelper {
 
-    constructor(){
-        this.value = "0"
-    }
-
     // give me state and value, I return you an object of Result
     getResult(state, key, value){
 
