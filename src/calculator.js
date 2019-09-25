@@ -9,6 +9,8 @@ import Col from 'react-bootstrap/Col';
 import States from './States';
 import Operator from './Operator';
 
+const NAN_DISPLAY_VALUE = "ERROR";
+
 class Calculator extends React.Component {
 
     constructor(props) {
@@ -28,6 +30,7 @@ class Calculator extends React.Component {
 
     onKeyClicked(value){
 
+        if (this.state.displayValue===NAN_DISPLAY_VALUE && value!=="AC") return;
 
         if (this.isReachedLimit(this.state.firstValue, this.state.secondValue, this.state.displayValue, this.state.operator, value)) {
             alert("Number is too long. I cannot handle it.");
@@ -145,6 +148,9 @@ class Calculator extends React.Component {
 
     formatDisplayValue(strNumber){
 
+        
+        if (strNumber===NAN_DISPLAY_VALUE)  return strNumber;
+
         if (this.getLastCharOf(strNumber)===".") {
             // eg "129."
             return this.addThousandSeparator(parseFloat(strNumber)).concat(".");
@@ -177,7 +183,7 @@ class Calculator extends React.Component {
                 res = parseFloat(a) * parseFloat(b);
                 break;
             default:
-                if (b==="0" || b<1e-10) return "Error!";
+                if (b==="0" || b<1e-10) return NAN_DISPLAY_VALUE;
                 res = parseFloat(a) / parseFloat(b);
                 break;
         }
