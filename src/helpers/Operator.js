@@ -1,5 +1,5 @@
 
-const operator = {
+const Operator = {
     addition: "addition",
     substraction: "substraction",
     multiplication: "multiplication",
@@ -9,4 +9,4 @@ const operator = {
     noOperator: "noOperator"
 }
 
-export default operator;
+export default Operator;
