@@ -1,14 +1,6 @@
 import States from './States';
 import Operator from './Operator';
-
-
-// TODO: move it to somewhere else. A new class?
-const symbol = {
-    magnitude: "+/-",
-    division: "\u00f7",
-    multiplication: "\u00d7",
-    percent: "%"
-}
+import Symbols from './Symbols';
 
 class StateHelper {
 
@@ -74,12 +66,12 @@ class StateHelper {
         switch (key) {
             case ".":
             case "=":
-            case symbol.percent:
+            case Symbols.percent:
                 newState = States.NumberEndingWithDot;
                 newValue = value;
                 newOperator = Operator.noOperator;
                 break;
-            case symbol.magnitude:
+            case Symbols.magnitude:
                 newState = States.NumberEndingWithDot;
                 newOperator = Operator.noOperator;
                 newValue = this.changeMagnitude(value);
@@ -106,7 +98,7 @@ class StateHelper {
     numberWithNoDot(key, value){
         let newState, newValue, newOperator;
 
-        if (key===symbol.percent) {
+        if (key===Symbols.percent) {
             newState = States.NumberWithDot;
             newValue = value / 100;
             newOperator = Operator.noOperator;
@@ -122,7 +114,7 @@ class StateHelper {
             newState = States.NumberWithNoDot;
             newOperator = Operator.noOperator;
             
-            if (key===symbol.magnitude){
+            if (key===Symbols.magnitude){
                 newValue = this.changeMagnitude(value);
             } else if (key==="=") {
                 newValue = value;
@@ -145,11 +137,11 @@ class StateHelper {
             newState = States.NumberWithDot;
             newOperator = Operator.noOperator;
 
-            if (key===symbol.percent) {
+            if (key===Symbols.percent) {
                 newValue = value/100;
             } else if (key==="=" || key===".") {
                 newValue = value;
-            } else if (key===symbol.magnitude) {
+            } else if (key===Symbols.magnitude) {
                 newValue = this.changeMagnitude(value);
             } else { // 0-9
                 newValue = value.toString().concat(key);
@@ -183,7 +175,7 @@ class StateHelper {
                 newOperator = this.getOperatorByKey(key);
             } else if (key==="=") {
                 newValue = value;
-            } else if (key===symbol.magnitude) {
+            } else if (key===Symbols.magnitude) {
                 newValue = this.changeMagnitude(value);
             } else { // %
                 newValue = value/100;
@@ -200,12 +192,12 @@ class StateHelper {
 
         switch (key) {
             case "0":
-            case symbol.percent:
+            case Symbols.percent:
                 newState = States.SecondNumberIsZeroWithOperator;
                 newValue = 0;
                 newOperator = Operator.operatorNoChange;
                 break;
-            case symbol.magnitude:
+            case Symbols.magnitude:
                 newState = States.SecondNumberIsZeroWithOperator;
                 newValue = 0;
                 newOperator = Operator.operatorNoChange;
@@ -251,12 +243,12 @@ class StateHelper {
                 newValue = value;
                 newOperator = Operator.noOperator;
                 break;
-            case symbol.percent:
+            case Symbols.percent:
                 newState = States.SecondNumberWithDot;
                 newValue = value/100;
                 newOperator = Operator.operatorNoChange;
                 break;
-            case symbol.magnitude:
+            case Symbols.magnitude:
                 newState = States.SecondNumberWithNoDotWithOperator;
                 newValue = this.changeMagnitude(value);
                 newOperator = Operator.operatorNoChange;
@@ -296,7 +288,7 @@ class StateHelper {
             newState = States.SecondNumberEndingWithDot;
             newOperator = Operator.operatorNoChange;
 
-            if (key===symbol.magnitude)    newValue = this.changeMagnitude(value);
+            if (key===Symbols.magnitude)    newValue = this.changeMagnitude(value);
             else newValue = value;  // either . or %. If it is a %, don't even bother to change the value
  
         }
@@ -320,8 +312,8 @@ class StateHelper {
             newOperator = Operator.operatorNoChange;
 
             if (key===".")                      newValue = value;
-            else if (key===symbol.magnitude)    newValue = this.changeMagnitude(value);
-            else if (key===symbol.percent)      newValue = value/100;
+            else if (key===Symbols.magnitude)    newValue = this.changeMagnitude(value);
+            else if (key===Symbols.percent)      newValue = value/100;
             else                                newValue = value.concat(key);   // 0-9
         }
 
@@ -357,7 +349,7 @@ class StateHelper {
                 return Operator.addition;
             case "-":
                 return Operator.substraction;
-            case symbol.multiplication:
+            case Symbols.multiplication:
                 return Operator.multiplication;
             default:
                 return Operator.division;
@@ -376,15 +368,13 @@ class StateHelper {
         switch (key) {
             case "+":
             case "-":
-            case symbol.multiplication:
-            case symbol.division:
+            case Symbols.multiplication:
+            case Symbols.division:
                 return true;
             default:
                 return false;
         }
     }
-
-
 
 }
 

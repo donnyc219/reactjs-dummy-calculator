@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import States from '../helpers/States';
 import Operator from '../helpers/Operator';
 import keyboardKey from 'keyboard-key';
+import Symbols from '../helpers/Symbols';
 
 const NAN_DISPLAY_VALUE = "ERROR";
 
@@ -25,8 +26,14 @@ class Calculator extends React.Component {
         };
 
         this.onKeyClicked = this.onKeyClicked.bind(this);
+        this.handleKeyboardEvent = this.handleKeyboardEvent.bind(this);
 
         this.stateHelper = new StateHelper();
+        this.prepareListeners();
+    }
+
+    prepareListeners() {
+        this.addKeyboardListener();
     }
 
     onKeyClicked(value){
@@ -73,7 +80,7 @@ class Calculator extends React.Component {
         let firstValue = this.state.firstValue;
         let secondValue = 0;
 
-        this.printObject("Result", result);
+        // this.printObject("Result", result);
 
         switch (result.state) {
             case States.Start:
@@ -144,13 +151,12 @@ class Calculator extends React.Component {
             operator: operator,
             state: state
         }, () => {
-            this.printObject("updated state", this.state);
+            // this.printObject("updated state", this.state);
         });
     }
 
     formatDisplayValue(strNumber){
 
-        
         if (strNumber===NAN_DISPLAY_VALUE)  return strNumber;
 
         if (this.getLastCharOf(strNumber)===".") {
@@ -205,21 +211,66 @@ class Calculator extends React.Component {
         console.log(object);
     }
 
-    render() {
+    handleKeyboardEvent(event){
+        let key = keyboardKey.getKey(event)
+        let isValidKey = this.isValidInput(key);
 
-        document.addEventListener('keydown', event => {
-            const key = keyboardKey.getKey(event)
-            let v = this.getLastCharOf("this is a test");
+        if (isValidKey) {
+            key = this.transformInputValidKeyToCalculatorKey(key);
+            this.onKeyClicked(key);
+        }
+    }
+
+    addKeyboardListener(){
+        document.addEventListener('keydown', this.handleKeyboardEvent);
+    }
+
+    transformInputValidKeyToCalculatorKey(key){
+        if (key==='Backspace' || key==='Escape') key = "AC";
+        else if (key==='`') key = "+/-";
+        else if (key==="/") key = Symbols.division;
+        else if (key==="*") key = Symbols.multiplication;
+        else if (key==='Enter') key = "=";
+        return key;
+    }
+
+    // only the keys that appears on the calculator are valid
+    // Escape = AC
+    isValidInput(key){
+        switch (key) {
+            case 'Escape':
+            case 'Backspace':   // same as Escape
+            case '`':   // change magnitude
+            case '%':
+
+            case '/':
+            case '*':
+            case '-':
+            case '+':      
             
-            switch (key) {
-              case 'Escape':
-                // handle escape key
-                break
-              default:
-                break
-            }
-          });
+            case '=':
+            case 'Enter':   // same as =
+            case '7':
+            case '8':
 
+            case '9':
+            case '4':
+            case '5':
+            case '6':
+
+            case '1':
+            case '2':
+            case '3':
+            case '0':
+            case '.':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    render() {
+        
         let formattedDisplayResult = this.formatDisplayValue(this.state.displayValue);
 
         return (
