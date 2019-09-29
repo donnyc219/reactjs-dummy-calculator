@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import States from '../helpers/States';
 import Operator from '../helpers/Operator';
+import keyboardKey from 'keyboard-key';
 
 const NAN_DISPLAY_VALUE = "ERROR";
 
@@ -62,6 +63,7 @@ class Calculator extends React.Component {
 
         return false;
     }
+
 
     handleResult(result){
         // thousands separator: 
@@ -204,6 +206,19 @@ class Calculator extends React.Component {
     }
 
     render() {
+
+        document.addEventListener('keydown', event => {
+            const key = keyboardKey.getKey(event)
+            let v = this.getLastCharOf("this is a test");
+            
+            switch (key) {
+              case 'Escape':
+                // handle escape key
+                break
+              default:
+                break
+            }
+          });
 
         let formattedDisplayResult = this.formatDisplayValue(this.state.displayValue);
 
